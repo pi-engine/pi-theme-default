@@ -1,4 +1,4 @@
-pi-theme-default
+Default Theme
 ================
 
 Pi Engine default theme

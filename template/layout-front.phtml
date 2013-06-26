@@ -3,15 +3,16 @@
 $this->i18nTheme('main');
 
 // Load Bootstrap css by Twitter Team
-$this->bootstrap();
-
-// Load style.css
-// Load front.css
-$this->css(array(
-    $this->assetTheme('css/style.css'),
-    $this->assetTheme('css/front.css'),
+$this->bootstrap(array(
+    'css/font-awesome.min.css'
 ));
 
+// Load style.css
+$this->css(array(
+    $this->assetTheme('css/style.css')
+));
+$this->jQuery();
+$this->js($this->assetTheme('js/navigation.js'));
 
 /**#@+
  * For demonstration
@@ -37,42 +38,32 @@ $this->js($this->assetLocale('rtl.js'));
 </head>
 
 <body id="pi-<?php echo Pi::service('module')->current(); ?>" class="<?php echo $locale; ?>">
-    <div class="header clearfix">
-        <div class="container clearfix">
-            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>" class="header-logo"><?php echo $this->escape($sitename); ?></a>
+    <!-- header: sitename -->
+    <div class="header">
+        <div class="container">
+            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>" class="sitename"><?php echo $this->escape($sitename); ?></a>
         </div>
     </div>
-
-    <div class="global-nav container">
-
-        <!-- Global navigation starts -->
-        <?php $navigation = $this->nav('front'/*, array('cache_ttl' => null, 'cache_level' => 'role')*/); ?>
-        <?php if ($navigation) { ?>
-
-            <!-- Global menu starts -->
-            <?php $this->css($this->assetTheme('css/menu.css')); ?>
-            <div class="menu">
-                <?php echo $navigation->menu()->setUlClass('menu-horizontal'); ?>
-            </div>
-            <!-- Global menu ends -->
-
-            <!-- Global breadcrumbs starts -->
-            <?php $breadcrumbs = $navigation->breadcrumbs()->setSeparator('<span class="divider">&gt;</span>')->render(); ?>
-            <?php if ($breadcrumbs) { ?>
-            <div class="breadcrumb">
-                <?php echo $breadcrumbs; ?>
-            </div>
-            <?php } ?>
-            <!-- Global breadcrumbs ends -->
-
-        <?php } ?>
-        <!-- Global navigation ends -->
+    <!-- navigation  -->
+    <div class="container navbar">
+        <div class="navbar-inner">
+        <a href="/" class="brand">Pi</a>
+        <?php 
+            $navigation = $this->nav('front'/*, array('cache_ttl' => null, 'cache_level' => 'role')*/);
+            echo $navigation->menu()->setUlClass('nav default-nav'); 
+        ?>
+        </div>
     </div>
+    <!-- breadcrumbs: check if it exists  -->
+    <?php $breadcrumbs = $navigation->breadcrumbs()->setSeparator('<span class="divider">&gt;</span>')->render(); ?>
+    <?php if ($breadcrumbs) { ?>
+    <div class="breadcrumb">
+       <?php echo $breadcrumbs; ?> 
+    </div>
+    <?php } ?>
 
-    <div class="wrapper">
+    <!-- page main content: blocks and module content -->
     <div class="container">
-
-        <!-- Blocks starts -->
         <?php
             $blocks = $this->blocks();
             $blockTempalte = $this->template('block');
@@ -112,11 +103,10 @@ $this->js($this->assetLocale('rtl.js'));
             </div>
             <?php } ?>
 
-            <!-- Module content starts -->
+            <!-- Module content -->
             <?php if (!empty($content)) { ?>
                 <div class="pi-zone-module row-fluid"><?php echo $content; ?></div>
             <?php } ?>
-            <!-- Module content ends -->
 
             <?php if (isset($blocks['5'])) {
             ?>
@@ -150,37 +140,28 @@ $this->js($this->assetLocale('rtl.js'));
             } ?>
         </div>
         <?php } ?>
-        <!-- Blocks ends -->
-    </div>
     </div>
 
-    <!-- Footer starts -->
+    <!-- Footer: sitelink -->
     <div class="footer">
-        <div class="horizontal-rule"></div>
         <div class="container">
-            <!-- Official statement starts -->
-            <a href="<?php echo Pi::url('page/terms'); ?>" title="<?php _e('Terms of use'); ?>"><?php _e('Terms of use'); ?></a>  |
-            <a href="<?php echo Pi::url('page/privacy'); ?>" title="<?php _e('Privacy guidelines'); ?>"><?php _e('Privacy guidelines'); ?></a>  |
-            <a href="<?php echo Pi::url('page/license'); ?>" title="<?php _e('License'); ?>"><?php _e('License'); ?></a>  |
-            <a href="<?php echo Pi::url('page/about'); ?>" title="<?php _e('About us'); ?>"><?php _e('About us'); ?></a>  |
-            <a href="<?php echo Pi::url('page/contact'); ?>" title="<?php _e('Contact us'); ?>"><?php _e('Contact us'); ?></a>  |
-            <a href="<?php echo Pi::url('page/join'); ?>" title="<?php _e('Join us'); ?>"><?php _e('Join us'); ?></a>  |
-            <a href="<?php echo Pi::url('page/help'); ?>" title="<?php _e('Help'); ?>"><?php _e('Help'); ?></a>  |
+            <div class="footer-line"></div>
+            <a href="<?php echo Pi::url('page/terms'); ?>" title="<?php _e('Terms of use'); ?>"><?php _e('Terms of use'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/privacy'); ?>" title="<?php _e('Privacy guidelines'); ?>"><?php _e('Privacy guidelines'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/license'); ?>" title="<?php _e('License'); ?>"><?php _e('License'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/about'); ?>" title="<?php _e('About us'); ?>"><?php _e('About us'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/contact'); ?>" title="<?php _e('Contact us'); ?>"><?php _e('Contact us'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/join'); ?>" title="<?php _e('Join us'); ?>"><?php _e('Join us'); ?></a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('page/help'); ?>" title="<?php _e('Help'); ?>"><?php _e('Help'); ?></a><span class="divider">|</span>
             <a href="<?php echo Pi::url('page/sitemap'); ?>" title="<?php _e('Sitemap'); ?>"><?php _e('Sitemap'); ?></a> <br/>
-            <!-- Official statement ends -->
-            &copy; <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>"><?php echo $this->escape($sitename); ?></a> | Powered by <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Pi Engine</a> | Design of <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Pi Engine</a>
-
+            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>">&copy;<?php echo $this->escape($sitename); ?></a><span class="divider">|</span>
+            <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Powered by Pi Engine</a><span class="divider">|</span> 
+            <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Design of Pi Engine</a><span class="divider">|</span>
         </div>
-
         <!-- Show execution time -->
         <?php $time = microtime(true) - Pi::startTime(); ?>
         <span style="font-size: 80%;" title="<?php _e('Execution time'); ?>"><?php echo $time; ?></span>
-        <!-- Show execution time -->
-
     </div>
-    <!-- Footer ends -->
-
     <?php echo $this->assemble('footScript', 4); ?>
-
 </body>
 </html>

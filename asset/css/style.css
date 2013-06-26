@@ -1,19 +1,19 @@
-/* base */
+/* Base */
 body {
   background: #f5f5f5;
 }
-/* common */
+/* Common */
 .divider {
   font-family: serif,sans-serif;
   margin: 0 6px;
   color: #ccc;
 }
-/* layout */
+/* Layout */
 .span1 {
 
 }
 
-/* header */
+/* Header */
 .header {
   margin:20px 0;
 }
@@ -21,7 +21,7 @@ body {
   font: bold 32px Tahoma;
 }
 
-/* navigation */
+/* Navigation */
 
 .default-nav >li >.dropdown-menu {
   top: 95%;
@@ -43,12 +43,12 @@ body {
   display: block;
 }
 
-/* zone */
+/* Zone */
 .pi-zone-1 {
 
 }
 
-/* block */
+/* Block */
 .block {
   margin-bottom: 20px;
   background: #fff;
@@ -66,7 +66,7 @@ body {
   margin-top: 0;
 }
 
-/* footer */
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 40px;

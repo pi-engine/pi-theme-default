@@ -5,7 +5,6 @@ Pi Engine default theme
 
 
 
-A complete theme set should include following files:
 
 **Folder and file skeleton**
 

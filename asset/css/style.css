@@ -1,86 +1,115 @@
+/* Bootstrap customization */
+
 /* Base */
-body {
-  background: #f5f5f5;
+
+/* Elements */
+fieldset dl {
+  margin-top: 0;
 }
-/* Common */
-.divider {
+
+form .icon-question-sign {
+  color: #0089D1;
+  float: left;
+  cursor: pointer;
+  margin: 6px 0 0 1px;
+  padding: 2px;
+}
+
+/* Components */
+.page-header {
+  margin: 0 0 15px 0;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.page-header .nav {
+  margin-bottom: 0;
+}
+
+.page-header .search-query {
+  border-radius: 5px;
+}
+
+/** Pi Specific **/
+/* Elements */
+.dl-horizontal dt {
+  width: 120px;
+}
+
+.dl-horizontal dd {
+  margin-left: 140px;
+}
+
+/* Components */
+.pi-divider {
   font-family: serif,sans-serif;
   margin: 0 6px;
   color: #ccc;
 }
-/* Layout */
-.span1 {
 
-}
-
-/* Header */
-.header {
-  margin:20px 0;
-}
-.sitename {
-  font: bold 32px Tahoma;
-}
-
-/* Navigation */
-
-.default-nav >li >.dropdown-menu {
-  top: 95%;
-}
-.navbar .default-nav >li:hover >a {
-  background: #e5e5e5;
-  color: #555;
-}
-.default-nav >li:hover >a .caret {
-  border-bottom-color: #333 !important;
-  border-top-color: #333 !important;
-}
-.default-nav li:hover >ul {
+.pi-legend {
   display: block;
-}
-.default-nav >li >span {
-  color: #777;
-  padding: 10px 15px;
-  display: block;
-}
-
-/* Zone */
-.pi-zone-1 {
-
+  margin-bottom: 15px;
+  font-size: 18px;
+  padding: 9px 10px;
+  color: #333333;
+  border: 0;
+  border-bottom: 1px solid #d7d7d7;
 }
 
-/* Block */
-.block {
+/* Box with border */
+.pi-widget {
   margin-bottom: 20px;
-  background: #fff;
-  box-shadow: 0 1px 3px #bababa;
-  border: 1px solid #cecece \9;
-}
-.block-header {
-  margin: 0 15px;
-  border-bottom: 1px dashed #e5e5e5;
-}
-.block-body {
-  padding: 15px 15px 0;
-}
-.block-body h4 {
-  margin-top: 0;
+  border: 1px solid #d7d7d7;
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  margin-top: 40px;
+.pi-widget-header {
+  padding: 5px 10px;
+  background: #F8F8F8;
+  border-bottom: 1px solid #d7d7d7;
 }
-.footer-line {
-  height: 0;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #fff;
-  margin-bottom: 20px;
+
+.pi-widget-body {
+  padding: 18px 20px;
 }
-.footer a {
-  color: #555;
-  line-height: 24px;
+
+.pi-widget-body >:last-child {
+  margin-bottom: 0;
 }
-.footer a:hover {
-  color: #0088CC;
-};
+
+/* Avatar */
+/* @see: https://github.com/pi-engine/pi/wiki/Design.Avatar */
+.pi-avatar {
+  width: 80px;
+}
+
+.pi-avatar-mini {
+  width: 16px;
+}
+
+.pi-avatar-xsmall {
+  width: 24px;
+}
+
+.pi-avatar-small {
+  width: 28px;
+}
+
+.pi-avatar-medium {
+  width: 46px;
+}
+
+.pi-avatar-large {
+  width: 96px;
+}
+
+.pi-avatar-xlarge {
+  width: 120px;
+}
+
+.pi-avatar-xxlarge {
+  width: 214px;
+}

@@ -4,15 +4,18 @@ $this->i18nTheme('main');
 
 // Load Bootstrap css by Twitter Team
 $this->bootstrap(array(
-    'css/font-awesome.min.css'
+    'css/font-awesome.min.css',
+    'css/font-awesome-ie7.min.css'  => array(
+        'conditional'   => 'IE 7',
+    ),
+));
+// Load style.css, front.css
+$this->css(array(
+    $this->assetTheme('css/style.css'),
+    $this->assetTheme('css/front.css'),
 ));
 
-// Load style.css
-$this->css(array(
-    $this->assetTheme('css/style.css')
-));
 $this->jQuery();
-$this->js($this->assetTheme('js/navigation.js'));
 
 /**#@+
  * For demonstration
@@ -36,127 +39,148 @@ $this->js($this->assetLocale('rtl.js'));
     <?php echo $this->assemble('headStyle', 4); ?>
     <?php echo $this->assemble('headScript', 4); ?>
 </head>
-
 <body id="pi-<?php echo Pi::service('module')->current(); ?>" class="<?php echo $locale; ?>">
-    <!-- header: sitename -->
-    <div class="header">
-        <div class="container">
-            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>" class="sitename"><?php echo $this->escape($sitename); ?></a>
+    <!-- Header: logo, user bar -->
+    <div class="container pi-header">
+        <div class="pi-logo">
+            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>" class="pi-logo-symbol">&pi;</a>
+            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>" class="pi-logo-headline"><?php echo $this->escape($sitename); ?></a>
+            <em class="pi-logo-tagline" title="<?php echo $this->escape($slogan); ?>"><?php echo $this->escape($slogan); ?></em>
+        </div>
+        <div class="pull-right pi-user-bar">
+           <?php echo $this->widget('system-user-bar'); ?>
         </div>
     </div>
-    <!-- navigation  -->
-    <div class="container navbar">
-        <div class="navbar-inner">
-        <a href="/" class="brand">Pi</a>
-        <?php 
-            $navigation = $this->nav('front'/*, array('cache_ttl' => null, 'cache_level' => 'role')*/);
-            echo $navigation->menu()->setUlClass('nav default-nav'); 
-        ?>
-        </div>
-    </div>
-    <!-- breadcrumbs: check if it exists  -->
-    <?php $breadcrumbs = $navigation->breadcrumbs()->setSeparator('<span class="divider">&gt;</span>')->render(); ?>
-    <?php if ($breadcrumbs) { ?>
-    <div class="breadcrumb">
-       <?php echo $breadcrumbs; ?> 
-    </div>
-    <?php } ?>
 
-    <!-- page main content: blocks and module content -->
-    <div class="container">
+    <!-- Navigation: menu, breadcrumbs  -->
+    <div class="container pi-nav-container">
         <?php
-            $blocks = $this->blocks();
-            $blockTempalte = $this->template('block');
+            $navigation = $this->nav('front'/*, array('cache_ttl' => null, 'cache_level' => 'role')*/);
+            echo $navigation->menu()->setUlClass('unstyled pi-menu');
         ?>
-        <div class="row">
-        <?php if (isset($blocks['1'])) {?>
-        <div class="span3 pi-zone-1">
-            <?php foreach ($blocks['1'] as $key => $block) {
-                include $blockTempalte;
-            } ?>
+        <!-- Breadcrumbs: check if it exists  -->
+        <?php $breadcrumbs = $navigation->breadcrumbs()->setSeparator('<span class="pi-divider">/</span>')->render(); ?>
+        <?php if ($breadcrumbs) { ?>
+        <div class="breadcrumb">
+           <?php echo $breadcrumbs; ?>
         </div>
-
         <?php } ?>
-        <div class="<?php echo (isset($blocks['1']) && isset($blocks['7'])) ? 'span6' : 'span9'; ?>">
-            <?php if(isset($blocks['2'])) {
-            ?>
-            <div class="pi-zone-2">
-                <?php foreach ($blocks['2'] as $key => $block) {
-                    include $blockTempalte;
-                } ?>
-            </div>
-            <?php } ?>
-            <?php if(isset($blocks['3'])) {
-            ?>
-            <div class="pi-zone-3">
-                <?php foreach ($blocks['3'] as $key => $block) {
-                    include $blockTempalte;
-                } ?>
-            </div>
-            <?php } ?>
-            <?php if (isset($blocks['4'])) {
-            ?>
-            <div class="pi-zone-4">
-            <?php foreach ($blocks['4'] as $key => $block) {
-                include $blockTempalte;
-            } ?>
-            </div>
-            <?php } ?>
+    </div>
 
-            <!-- Module content -->
-            <?php if (!empty($content)) { ?>
-                <div class="pi-zone-module row-fluid"><?php echo $content; ?></div>
-            <?php } ?>
-
-            <?php if (isset($blocks['5'])) {
-            ?>
-            <div class="pi-zone-5">
-                <?php foreach ($blocks['5'] as $key => $block) {
-                    include $blockTempalte;
-                } ?>
-            </div>
-            <?php } ?>
-            <?php if (isset($blocks['6'])) {
-            ?>
-            <div class="pi-zone-6">
-                <?php foreach ($blocks['6'] as $key => $block) {
-                    include $blockTempalte;
-                } ?>
-            </div>
-            <?php } ?>
-        </div>
-        <?php if (isset($blocks['7'])) { ?>
-        <div class="span3 pi-zone-7">
-            <?php foreach ($blocks['7'] as $key => $block) {
-                include $blockTempalte;
+    <!-- Page main content: blocks and module content -->
+    <?php
+        $blocks = $this->blocks();
+        $blockTemplate = $this->template('block');
+    ?>
+    <div class="container">
+        <!-- Top head zone -->
+        <?php if (!empty($blocks['0'])) { ?>
+        <div class="pi-zone-0">
+            <?php foreach ($blocks['0'] as $block) {
+                include $blockTemplate;
             } ?>
         </div>
         <?php } ?>
+        <!-- Left zone -->
+        <?php if (!empty($blocks['1'])) { ?>
+        <div class="pi-zone-1">
+            <?php foreach ($blocks['1'] as $block) {
+                include $blockTemplate;
+            } ?>
         </div>
-        <?php if (isset($blocks['8'])) {?>
+        <?php } ?>
+        <!-- Right zone -->
+        <?php if (!empty($blocks['8'])) { ?>
         <div class="pi-zone-8">
-            <?php foreach ($blocks['8'] as $key => $block) {
-                include $blockTempalte;
+            <?php foreach ($blocks['8'] as $block) {
+                include $blockTemplate;
+            } ?>
+        </div>
+        <?php } ?>
+        <div class="pi-main<?php 
+        if (!empty($blocks['1'])) { echo ' pi-main-left'; }
+        if (!empty($blocks['8'])) { echo ' pi-main-right'; }
+        ?>">
+            <!-- Center top zone -->
+            <?php if (!empty($blocks['2'])) { ?>
+            <div class="pi-zone-2">
+                <?php foreach ($blocks['2'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+            <!-- Top left zone -->
+            <?php if (!empty($blocks['3'])) { ?>
+            <div class="pi-zone-3">
+                <div class="pi-zone-inner">
+                    <?php foreach ($blocks['3'] as $block) {
+                        include $blockTemplate;
+                    } ?>
+                </div>
+            </div>
+            <?php } ?>
+            <!-- Top right zone -->
+            <?php if (!empty($blocks['4'])) { ?>
+            <div class="pi-zone-4">
+                <?php foreach ($blocks['4'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+            <!-- Module zone -->
+            <div class="row-fluid pi-module-content">
+                <?php echo $content; ?>
+            </div>
+            <!-- Bottom left zone -->
+            <?php if (!empty($blocks['5'])) { ?>
+            <div class="pi-zone-5">
+                <?php foreach ($blocks['5'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+            <!-- Bottom right zone -->
+            <?php if (!empty($blocks['6'])) { ?>
+            <div class="pi-zone-6">
+                <?php foreach ($blocks['6'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+            <!-- Center bottom zone -->
+            <?php if (!empty($blocks['7'])) { ?>
+            <div class="pi-zone-7">
+                <?php foreach ($blocks['7'] as $block) {
+                    include $blockTemplate;
+                } ?>
+            </div>
+            <?php } ?>
+        </div>
+        <!-- Bottom foot zone -->
+        <?php if (!empty($blocks['99'])) { ?>
+        <div class="pi-zone-99">
+            <?php foreach ($blocks['99'] as $block) {
+                include $blockTemplate;
             } ?>
         </div>
         <?php } ?>
     </div>
 
     <!-- Footer: sitelink -->
-    <div class="footer">
+    <div class="pi-footer">
         <div class="container">
-            <div class="footer-line"></div>
-            <a href="<?php echo Pi::url('page/terms'); ?>" title="<?php _e('Terms of use'); ?>"><?php _e('Terms of use'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/privacy'); ?>" title="<?php _e('Privacy guidelines'); ?>"><?php _e('Privacy guidelines'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/license'); ?>" title="<?php _e('License'); ?>"><?php _e('License'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/about'); ?>" title="<?php _e('About us'); ?>"><?php _e('About us'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/contact'); ?>" title="<?php _e('Contact us'); ?>"><?php _e('Contact us'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/join'); ?>" title="<?php _e('Join us'); ?>"><?php _e('Join us'); ?></a><span class="divider">|</span>
-            <a href="<?php echo Pi::url('page/help'); ?>" title="<?php _e('Help'); ?>"><?php _e('Help'); ?></a><span class="divider">|</span>
+            <div class="pi-footer-line"></div>
+            <a href="<?php echo Pi::url('page/terms'); ?>" title="<?php _e('Terms of use'); ?>"><?php _e('Terms of use'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/privacy'); ?>" title="<?php _e('Privacy guidelines'); ?>"><?php _e('Privacy guidelines'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/license'); ?>" title="<?php _e('License'); ?>"><?php _e('License'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/about'); ?>" title="<?php _e('About us'); ?>"><?php _e('About us'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/contact'); ?>" title="<?php _e('Contact us'); ?>"><?php _e('Contact us'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/join'); ?>" title="<?php _e('Join us'); ?>"><?php _e('Join us'); ?></a><span class="pi-divider">|</span>
+            <a href="<?php echo Pi::url('page/help'); ?>" title="<?php _e('Help'); ?>"><?php _e('Help'); ?></a><span class="pi-divider">|</span>
             <a href="<?php echo Pi::url('page/sitemap'); ?>" title="<?php _e('Sitemap'); ?>"><?php _e('Sitemap'); ?></a> <br/>
-            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>">&copy;<?php echo $this->escape($sitename); ?></a><span class="divider">|</span>
-            <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Powered by Pi Engine</a><span class="divider">|</span> 
-            <a href="http://www.xoopsengine.org" title="Pi Engine" target="_blank">Design of Pi Engine</a><span class="divider">|</span>
+            <a href="<?php echo Pi::url('www'); ?>" title="<?php echo $this->escape($sitename); ?>">&copy;<?php echo $this->escape($sitename); ?></a><span class="pi-divider">|</span>
+            <a href="http://www.pialog.org" title="Pi Engine" target="_blank">Powered by Pi Engine</a><span class="pi-divider">|</span>
+            <a href="http://www.pialog.org" title="Pi Engine" target="_blank">Design of Pi Engine</a>
         </div>
         <!-- Show execution time -->
         <?php $time = microtime(true) - Pi::startTime(); ?>
